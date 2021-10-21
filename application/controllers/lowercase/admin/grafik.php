@@ -1,5 +1,5 @@
 <?php
-class Grafik extends CI_Controller{
+class grafik extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){

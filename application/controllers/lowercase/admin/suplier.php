@@ -1,5 +1,5 @@
 <?php
-class Suplier extends CI_Controller{
+class suplier extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){

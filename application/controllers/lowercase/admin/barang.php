@@ -1,5 +1,5 @@
 <?php
-class Barang extends CI_Controller{
+class barang extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){

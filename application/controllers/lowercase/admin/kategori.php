@@ -1,5 +1,5 @@
 <?php
-class Kategori extends CI_Controller{
+class kategori extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){

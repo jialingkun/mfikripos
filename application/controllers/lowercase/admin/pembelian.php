@@ -1,5 +1,5 @@
 <?php
-class Pembelian extends CI_Controller{
+class pembelian extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){
