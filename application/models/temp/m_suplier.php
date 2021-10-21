@@ -1,5 +1,5 @@
 <?php
-class M_suplier extends CI_Model{
+class m_suplier extends CI_Model{
 
 	function hapus_suplier($kode){
 		$hsl=$this->db->query("DELETE FROM tbl_suplier where suplier_id='$kode'");

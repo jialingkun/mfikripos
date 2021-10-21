@@ -1,5 +1,5 @@
 <?php
-class M_penjualan extends CI_Model{
+class m_penjualan extends CI_Model{
 
 	function hapus_retur($kode){
 		$hsl=$this->db->query("DELETE FROM tbl_retur WHERE retur_id='$kode'");

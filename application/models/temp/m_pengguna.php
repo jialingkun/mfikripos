@@ -1,5 +1,5 @@
 <?php
-class M_pengguna extends CI_Model{
+class m_pengguna extends CI_Model{
 	function get_pengguna(){
 		$hsl=$this->db->query("SELECT * FROM tbl_user");
 		return $hsl;

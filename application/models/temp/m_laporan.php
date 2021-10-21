@@ -1,5 +1,5 @@
 <?php
-class M_laporan extends CI_Model{
+class m_laporan extends CI_Model{
 	function get_stok_barang(){
 		$hsl=$this->db->query("SELECT kategori_id,kategori_nama,barang_nama,barang_stok FROM tbl_kategori JOIN tbl_barang ON kategori_id=barang_kategori_id GROUP BY kategori_id,barang_nama");
 		return $hsl;

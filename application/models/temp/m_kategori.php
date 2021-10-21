@@ -1,5 +1,5 @@
 <?php
-class M_kategori extends CI_Model{
+class m_kategori extends CI_Model{
 
 	function hapus_kategori($kode){
 		$hsl=$this->db->query("DELETE FROM tbl_kategori where kategori_id='$kode'");

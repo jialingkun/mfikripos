@@ -1,5 +1,5 @@
 <?php
-class M_pembelian extends CI_Model{
+class m_pembelian extends CI_Model{
 
 	function simpan_pembelian($nofak,$tglfak,$suplier,$beli_kode){
 		$idadmin=$this->session->userdata('idadmin');

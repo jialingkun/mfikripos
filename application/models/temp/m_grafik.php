@@ -1,5 +1,5 @@
 <?php
-class M_grafik extends CI_Model{
+class m_grafik extends CI_Model{
 	function statistik_stok(){
         $query = $this->db->query("SELECT kategori_nama,SUM(barang_stok) AS tot_stok FROM tbl_barang JOIN tbl_kategori ON barang_kategori_id=kategori_id GROUP BY kategori_nama");
          
