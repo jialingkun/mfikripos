@@ -6,10 +6,19 @@
 </head>
 <body onload="window.print()">
 <div id="laporan">
-<table align="center" style="width:180px; border-bottom:3px double;border-top:none;border-right:none;border-left:none;margin-top:5px;margin-bottom:20px;">
-<!--<tr>
-    <td><img src="<?php// echo base_url().'assets/img/kop_surat.png'?>"/></td>
-</tr>-->
+<table align="center" style="width:180px; border-bottom:3px double;border-top:none;border-right:none;border-left:none;margin-top:5px;margin-bottom:20px; text-align:center;font-size: 12px;">
+<tr>
+    <!-- <td><img src="<?php// echo base_url().'assets/img/kop_surat.png'?>"/></td> -->
+</tr>
+<tr>
+    <td style="font-size: 13px;"><b>Toko Aman Jaya</b></td>
+</tr>
+<tr>
+    <td>Raya Rungkut Tengah 47</td>
+</tr>
+<tr>
+    <td>085 93 666 6388</td>
+</tr>
 </table>
 
 <table border="0" align="center" style="width:180px; border:none;margin-top:5px;margin-bottom:0px;">
@@ -26,9 +35,16 @@
             <th style="text-align:left; width: 35%">No Nota</th>
             <th style="text-align:left;">: <?php echo $b['jual_nofak'];?></th>
         </tr>
+        <?php 
+        list($date, $time)=explode(' ', $b['jual_tanggal']);
+         ?>
         <tr>
             <th style="text-align:left;">Tanggal</th>
-            <th style="text-align:left;">: <?php echo $b['jual_tanggal'];?></th>
+            <th style="text-align:left;">: <?php echo $date;?></th>
+        </tr>
+        <tr>
+            <th style="text-align:left;">Waktu</th>
+            <th style="text-align:left;">: <?php echo $time;?></th>
         </tr>
         <tr>
             <th style="text-align:left;">Keterangan</th>
