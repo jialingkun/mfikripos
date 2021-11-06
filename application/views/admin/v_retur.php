@@ -39,7 +39,6 @@
             <center><?php echo $this->session->flashdata('msg');?></center>
                 <h1 class="page-header">Retur
                     <small>Penjualan (Grosir)</small>
-                    <a href="#" data-toggle="modal" data-target="#largeModal" class="pull-right"><small>Bantuan?</small></a>
                 </h1>
             </div>
         </div>
@@ -48,6 +47,7 @@
         <div class="row">
             <div class="col-lg-12">
             <form action="<?php echo base_url().'admin/retur/simpan_retur'?>" method="post">
+                <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
             <table>
                 <tr>
                     <th>Kode Barang</th>
@@ -144,15 +144,15 @@
                             <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul_grosir);?></td>
                             <td style="text-align:center;"><?php echo $stok;?></td>
                             <td style="text-align:center;">
-                            <form action="<?php echo base_url().'admin/retur/simpan_retur'?>" method="post">
+                            <!-- <form action="<?php echo base_url().'admin/retur/simpan_retur'?>" method="post"> -->
                             <input type="hidden" name="kode_brg" value="<?php echo $id?>">
                             <input type="hidden" name="nabar" value="<?php echo $nm;?>">
                             <input type="hidden" name="satuan" value="<?php echo $satuan;?>">
                             <input type="hidden" name="harjul" value="<?php echo number_format($harjul_grosir);?>">
                             <input type="hidden" name="qty" value="1" required>
                             <input type="hidden" name="keterangan" value="Rusak" required>
-                                <button type="submit" class="btn btn-xs btn-info" title="Pilih"><span class="fa fa-refresh"></span> Retur</button>
-                            </form>
+                                <button type="button" class="btn btn-xs btn-info" title="Pilih" onclick="copykode('<?php echo $id?>')"><span class="fa fa-refresh"></span> Retur</button>
+                            <!-- </form> -->
                             </td>
                         </tr>
                     <?php endforeach;?>
@@ -269,6 +269,13 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function copykode(kode){
+            $("#kode_brg").val(kode).trigger("input");
+            $('#largeModal').modal('hide');
+        }
     </script>
     
     
