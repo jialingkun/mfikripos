@@ -14,6 +14,7 @@ class pembelian extends CI_Controller{
 	function index(){
 	if($this->session->userdata('akses')=='1'){
 		$x['sup']=$this->m_suplier->tampil_suplier();
+		$x['data']=$this->m_barang->tampil_barang();
 		$this->load->view('admin/v_pembelian',$x);
 	}else{
         echo "Halaman tidak ditemukan";
