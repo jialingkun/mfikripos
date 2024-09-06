@@ -1,6 +1,6 @@
 <html lang="en" moznomarginboxes mozdisallowselectionprint>
 <head>
-    <title>Laporan data penjualan</title>
+    <title>Laporan Laba/rugi</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/laporan.css')?>"/>
 </head>
@@ -14,7 +14,7 @@
 
 <table border="0" align="center" style="width:800px; border:none;margin-top:5px;margin-bottom:0px;">
 <tr>
-    <td colspan="2" style="width:800px;paddin-left:20px;"><center><h4>LAPORAN PENJUALAN BARANG</h4></center><br/></td>
+    <td colspan="2" style="width:800px;paddin-left:20px;"><center><h4>LAPORAN PEMBELIAN </h4></center><br/></td>
 </tr>
                        
 </table>
@@ -24,20 +24,25 @@
             <th style="text-align:left"></th>
         </tr>
 </table>
-
+<?php 
+    $b=$jml->row_array();
+?>
 <table border="1" align="center" style="width:900px;margin-bottom:20px;">
 <thead>
+<!-- <tr>
+<th colspan="11" style="text-align:left;">Bulan : <?php echo $b['bulan'];?></th>
+</tr> -->
     <tr>
         <th style="width:50px;">No</th>
-        <th>No Faktur</th>
         <th>Tanggal</th>
-        <th>Kode Barang</th>
         <th>Nama Barang</th>
+        <th>Kode beli</th>
+        <th>No Faktur</th>
+        <th>Suplier</th>
         <th>Satuan</th>
-        <th>Harga Jual</th>
+        <th>Harga Beli</th>
         <th>Qty</th>
-        <th>Diskon</th>
-        <th>Total</th>
+        <th>Total harga</th>
     </tr>
 </thead>
 <tbody>
@@ -45,36 +50,35 @@
 $no=0;
     foreach ($data->result_array() as $i) {
         $no++;
-        $nofak=$i['jual_nofak'];
-        $tgl=$i['jual_tanggal'];
-        $barang_id=$i['d_jual_barang_id'];
-        $barang_nama=$i['d_jual_barang_nama'];
-        $barang_satuan=$i['d_jual_barang_satuan'];
-        $barang_harjul=$i['d_jual_barang_harjul'];
-        $barang_qty=$i['d_jual_qty'];
-        $barang_diskon=$i['d_jual_diskon'];
-        $barang_total=$i['d_jual_total'];
+        $tgl=$i['beli_tanggal'];  
+        $nabar=$i['barang_nama'];
+        $satuan=$i['barang_satuan'];
+        $harjul=$i['d_beli_harga'];
+        $qty=$i['d_beli_jumlah'];
+        $beli_total=$i['d_beli_total'];
+        $kode = $i['d_beli_kode'];
+        $fak = $i['d_beli_nofak'];
+        $suplier = $i['suplier_nama'];
 ?>
     <tr>
         <td style="text-align:center;"><?php echo $no;?></td>
-        <td style="padding-left:5px;"><?php echo $nofak;?></td>
         <td style="text-align:center;"><?php echo $tgl;?></td>
-        <td style="text-align:center;"><?php echo $barang_id;?></td>
-        <td style="text-align:left;"><?php echo $barang_nama;?></td>
-        <td style="text-align:left;"><?php echo $barang_satuan;?></td>
-        <td style="text-align:right;"><?php echo 'Rp '.number_format($barang_harjul);?></td>
-        <td style="text-align:center;"><?php echo $barang_qty;?></td>
-        <td style="text-align:right;"><?php echo 'Rp '.number_format($barang_diskon);?></td>
-        <td style="text-align:right;"><?php echo 'Rp '.number_format($barang_total);?></td>
+        <td style="text-align:left;"><?php echo $nabar;?></td>
+        
+        <td style="text-align:center;"><?php echo $kode;?></td>
+        <td style="text-align:center;"><?php echo $fak;?></td>
+        <td style="text-align:center;"><?php echo $suplier;?></td>
+        <td style="text-align:left;"><?php echo $satuan;?></td>
+        <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul);?></td>
+        <td style="text-align:center;"><?php echo $qty;?></td>
+        <td style="text-align:right;"><?php echo 'Rp '.number_format($beli_total);?></td>
     </tr>
 <?php }?>
 </tbody>
 <tfoot>
-<?php 
-    $b=$jml->row_array();
-?>
+
     <tr>
-        <td colspan="9" style="text-align:center;"><b>Total</b></td>
+        <td colspan="9" style="text-align:center;"><b>Total Pembelian</b></td>
         <td style="text-align:right;"><b><?php echo 'Rp '.number_format($b['total']);?></b></td>
     </tr>
 </tfoot>
@@ -85,7 +89,7 @@ $no=0;
 </table>
 <table align="center" style="width:800px; border:none;margin-top:5px;margin-bottom:20px;">
     <tr>
-        <td align="right"> <?php echo date('d-M-Y')?></td>
+        <td align="right"><?php echo date('d-M-Y')?></td>
     </tr>
     <tr>
         <td align="right"></td>
@@ -111,4 +115,4 @@ $no=0;
 </table>
 </div>
 </body>
-</html>_
+</html>

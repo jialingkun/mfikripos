@@ -283,7 +283,7 @@
         $(document).ready(function(){
             //Ajax kabupaten/kota insert
             $("#kode_brg").focus();
-            $("#kode_brg").keyup(function(){
+            $("#kode_brg").on("input",function(){
                 var kobar = {kode_brg:$(this).val()};
                    $.ajax({
                type: "POST",

@@ -24,6 +24,8 @@
 */
 $config['base_url'] = 'http://localhost/mfikripos/';
 
+date_default_timezone_set('Asia/Jakarta');
+
 /*
 |--------------------------------------------------------------------------
 | Index File

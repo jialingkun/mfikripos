@@ -74,6 +74,14 @@
                 </div> 
             </div>
             <div class="col-md-3 portfolio-item">
+                <div class="menu-item" style="height:150px; background-color: #EDBE00;">
+                     <a href="<?php echo base_url().'admin/penjualan_member'?>" data-toggle="modal">
+                     <i class='fa fa-shirtsinbulk'></i>
+                            <p style="text-align:left;font-size:14px;padding-left:5px;">Penjualan Member</p>
+                      </a>
+                </div> 
+            </div>
+            <div class="col-md-3 portfolio-item">
                 <div class="menu-item light-orange" style="height:150px;">
                      <a href="<?php echo base_url().'admin/suplier'?>" data-toggle="modal">
                            <i class="fa fa-truck"></i>
@@ -81,14 +89,8 @@
                       </a>
                 </div> 
             </div>
-            <div class="col-md-3 portfolio-item">
-                <div class="menu-item color" style="height:150px;">
-                     <a href="<?php echo base_url().'admin/kategori'?>" data-toggle="modal">
-                           <i class="fa fa-sitemap"></i>
-                            <p style="text-align:left;font-size:14px;padding-left:5px;">Kategori</p>
-                      </a>
-                </div> 
-            </div>
+            
+            
             <?php }?>
             <?php if($h=='2'){ ?> 
             <div class="col-md-3 portfolio-item">
@@ -104,6 +106,14 @@
                      <a href="<?php echo base_url().'admin/penjualan_grosir'?>" data-toggle="modal">
                            <i class="fa fa-cubes"></i>
                             <p style="text-align:left;font-size:14px;padding-left:5px;">Penjualan Grosir</p>
+                      </a>
+                </div> 
+            </div>
+            <div class="col-md-3 portfolio-item">
+                <div class="menu-item" style="height:150px; background-color: #EDBE00;">
+                     <a href="<?php echo base_url().'admin/penjualan_member'?>" data-toggle="modal">
+                     <i class='fa fa-shirtsinbulk'></i>
+                            <p style="text-align:left;font-size:14px;padding-left:5px;">Penjualan Member</p>
                       </a>
                 </div> 
             </div>
@@ -144,6 +154,30 @@
                      <a href="<?php echo base_url().'admin/pembelian'?>" data-toggle="modal">
                            <i class="fa fa-cubes"></i>
                             <p style="text-align:left;font-size:14px;padding-left:5px;">Pembelian</p>
+                      </a>
+                </div> 
+            </div>
+            <div class="col-md-3 portfolio-item">
+                <div class="menu-item" style="height:150px; background-color: #BFD641;">
+                     <a href="<?php echo base_url().'admin/jenis_pembayaran'?>" data-toggle="modal">
+                           <i class="fa fa-dollar"></i>
+                            <p style="text-align:left;font-size:14px;padding-left:5px;">Jenis pembayaran</p>
+                      </a>
+                </div> 
+            </div>
+            <div class="col-md-3 portfolio-item">
+                <div class="menu-item color" style="height:150px;">
+                     <a href="<?php echo base_url().'admin/kategori'?>" data-toggle="modal">
+                           <i class="fa fa-sitemap"></i>
+                            <p style="text-align:left;font-size:14px;padding-left:5px;">Kategori</p>
+                      </a>
+                </div> 
+            </div>
+            <div class="col-md-3 portfolio-item">
+                <div class="menu-item" style="height:150px; background-color: #887066;">
+                     <a href="<?php echo base_url().'admin/pelanggan'?>" data-toggle="modal">
+                           <i class="fa fa-user"></i>
+                            <p style="text-align:left;font-size:14px;padding-left:5px;">Data pelanggan</p>
                       </a>
                 </div> 
             </div>

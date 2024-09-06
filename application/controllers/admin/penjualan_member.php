@@ -1,5 +1,5 @@
 <?php
-class penjualan_grosir extends CI_Controller{
+class penjualan_member extends CI_Controller{
 	function __construct(){
 		parent::__construct();
 		if($this->session->userdata('masuk') !=TRUE){
@@ -16,9 +16,9 @@ class penjualan_grosir extends CI_Controller{
 	function index(){
 	if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2'){
 		$data['data']=$this->m_barang->tampil_barang();
-		$data['sup']=$this->m_pelanggan->tampil_pelanggan('grosir');
+		$data['sup']=$this->m_pelanggan->tampil_pelanggan('member');
 		$data['jenis_pemb'] = $this->m_jenis_pemb->tampil_kategori();
-		$this->load->view('admin/v_penjualan_grosir',$data);
+		$this->load->view('admin/v_penjualan_member',$data);
 	}else{
         echo "Halaman tidak ditemukan";
     }
@@ -27,7 +27,7 @@ class penjualan_grosir extends CI_Controller{
 	if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2'){
 		$kobar=$this->input->post('kode_brg');
 		$x['brg']=$this->m_barang->get_barang($kobar);
-		$this->load->view('admin/v_detail_barang_jual_grosir',$x);
+		$this->load->view('admin/v_detail_barang_jual_member',$x);
 	}else{
         echo "Halaman tidak ditemukan";
     }
@@ -67,7 +67,7 @@ class penjualan_grosir extends CI_Controller{
 	}else{
 		$this->cart->insert($data);
 	}
-		redirect('admin/penjualan_grosir');
+		redirect('admin/penjualan_member');
 	}else{
         echo "Halaman tidak ditemukan";
     }
@@ -79,12 +79,12 @@ class penjualan_grosir extends CI_Controller{
                'rowid'      => $row_id,
                'qty'     => 0
             ));
-		redirect('admin/penjualan_grosir');
+		redirect('admin/penjualan_member');
 	}else{
         echo "Halaman tidak ditemukan";
     }
 	}
-	function simpan_penjualan_grosir(){
+	function simpan_penjualan_member(){
 	if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2'){
 		$total=$this->input->post('total');
 		$pelanggan = $this->input->post('pelanggan');
@@ -95,25 +95,25 @@ class penjualan_grosir extends CI_Controller{
 		if(!empty($total) && !empty($jml_uang)){
 			if($jml_uang < $total){
 				echo $this->session->set_flashdata('msg','<label class="label label-danger">Jumlah Uang yang anda masukan Kurang</label>');
-				redirect('admin/penjualan_grosir');
+				redirect('admin/penjualan_member');
 			}else{
 				$nofak=$this->m_penjualan->get_nofak();
 				$this->session->set_userdata('nofak',$nofak);
-				$order_proses=$this->m_penjualan->simpan_penjualan_grosir($nofak,$total,$jml_uang,$kembalian,$pelanggan,$id_pemb,$ket_pemb);
+				$order_proses=$this->m_penjualan->simpan_penjualan_member($nofak,$total,$jml_uang,$kembalian,$pelanggan,$id_pemb,$ket_pemb);
 				if($order_proses){
 					$this->cart->destroy();
 					//$this->session->unset_userdata('nofak');
 					$this->session->unset_userdata('tglfak');
 					$this->session->unset_userdata('suplier');
-					$this->load->view('admin/alert/alert_sukses_grosir');
+					$this->load->view('admin/alert/alert_sukses_member');
 				}else{
-					redirect('admin/penjualan_grosir');
+					redirect('admin/penjualan_member');
 				}
 			}
 			
 		}else{
 			echo $this->session->set_flashdata('msg','<label class="label label-danger">Penjualan Gagal di Simpan, Mohon Periksa Kembali Semua Inputan Anda!</label>');
-			redirect('admin/penjualan_grosir');
+			redirect('admin/penjualan_member');
 		}
 
 	}else{
@@ -121,9 +121,9 @@ class penjualan_grosir extends CI_Controller{
     }
 	}
 
-	function cetak_faktur_grosir(){
+	function cetak_faktur_member(){
 		$x['data']=$this->m_penjualan->cetak_faktur();
-		$this->load->view('admin/laporan/v_faktur_grosir',$x);
+		$this->load->view('admin/laporan/v_faktur_member',$x);
 		//$this->session->unset_userdata('nofak');
 	}
 

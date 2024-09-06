@@ -55,6 +55,7 @@
                         <th>Harga Pokok</th>
                         <th>Harga (Eceran)</th>
                         <th>Harga (Grosir)</th>
+                        <th>Harga (Member)</th>
                         <th>Stok</th>
                         <th>Min Stok</th>
                         <th>Kategori</th>
@@ -72,6 +73,7 @@
                         $harpok=$a['barang_harpok'];
                         $harjul=$a['barang_harjul'];
                         $harjul_grosir=$a['barang_harjul_grosir'];
+                        $harjul_member=$a['barang_harjul_member'];
                         $stok=$a['barang_stok'];
                         $min_stok=$a['barang_min_stok'];
                         $kat_id=$a['barang_kategori_id'];
@@ -85,6 +87,7 @@
                         <td style="text-align:right;"><?php echo 'Rp '.number_format($harpok);?></td>
                         <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul);?></td>
                         <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul_grosir);?></td>
+                        <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul_member);?></td>
                         <td style="text-align:center;"><?php echo $stok;?></td>
                         <td style="text-align:center;"><?php echo $min_stok;?></td>
                         <td><?php echo $kat_nama;?></td>
@@ -197,6 +200,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="control-label col-xs-3" >Harga (Member)</label>
+                        <div class="col-xs-9">
+                            <input name="harjul_member" class="harjul form-control" type="text" placeholder="Harga Jual Member..." style="width:335px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="control-label col-xs-3" >Stok</label>
                         <div class="col-xs-9">
                             <input name="stok" class="form-control" type="number" placeholder="Stok..." style="width:335px;">
@@ -231,6 +241,7 @@
                         $harpok=$a['barang_harpok'];
                         $harjul=$a['barang_harjul'];
                         $harjul_grosir=$a['barang_harjul_grosir'];
+                        $harjul_member=$a['barang_harjul_member'];
                         $stok=$a['barang_stok'];
                         $min_stok=$a['barang_min_stok'];
                         $kat_id=$a['barang_kategori_id'];
@@ -1009,6 +1020,14 @@
                                 <input name="harjul_grosir" class="harjul form-control" type="text" value="<?php echo $harjul_grosir;?>" placeholder="Harga Jual Grosir..." style="width:335px;" required>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-xs-3" >Harga (Member)</label>
+                            <div class="col-xs-9">
+                                <input name="harjul_member" class="harjul form-control" type="text" value="<?php echo $harjul_member;?>" placeholder="Harga Jual Member..." style="width:335px;" required>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="control-label col-xs-3" >Stok</label>

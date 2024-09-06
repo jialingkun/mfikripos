@@ -21,6 +21,8 @@
     <link href="<?php echo base_url().'assets/css/jquery.dataTables.min.css'?>" rel="stylesheet">
     <link href="<?php echo base_url().'assets/dist/css/bootstrap-select.css'?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/bootstrap-datetimepicker.min.css'?>">
+    <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/responsive/3.0.0/css/responsive.bootstrap5.min.css"/>
 </head>
 
 <body>
@@ -47,7 +49,7 @@
         <div class="row">
             <div class="col-lg-12">
             <form action="<?php echo base_url().'admin/penjualan_grosir/add_to_cart'?>" method="post">
-                <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
+                    <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
             <table>
                 <tr>
                     <th>Kode Barang</th>
@@ -95,7 +97,19 @@
             <form action="<?php echo base_url().'admin/penjualan_grosir/simpan_penjualan_grosir'?>" method="post">
             <table>
                 <tr>
-                    <td style="width:760px;" rowspan="2"><button type="submit" class="btn btn-info btn-lg"> Simpan</button></td>
+                    <td style="width:760px;" rowspan="2">
+                    <select name="pelanggan" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Pelanggan Grosir" data-width="260px" required>
+                        <?php foreach ($sup->result_array() as $i) {
+                            $id_sup=$i['id'];
+                            $nm_sup=$i['nama'];
+                            $al_sup=$i['alamat'];
+                            $notelp_sup=$i['no_telp'];
+
+                           echo "<option value='$nm_sup'>$nm_sup - $al_sup - $notelp_sup</option>";
+                        }?>
+                    </select> <br> <br>
+                    
+                        <button type="submit" class="btn btn-info btn-lg"> Simpan</button></td>
                     <th style="width:140px;">Total Belanja(Rp)</th>
                     <th style="text-align:right;width:140px;"><input type="text" name="total2" value="<?php echo number_format($this->cart->total());?>" class="form-control input-sm" style="text-align:right;margin-bottom:5px;" readonly></th>
                     <input type="hidden" id="total" name="total" value="<?php echo $this->cart->total();?>" class="form-control input-sm" style="text-align:right;margin-bottom:5px;" readonly>
@@ -110,11 +124,27 @@
                     <th>Kembalian(Rp)</th>
                     <th style="text-align:right;"><input type="text" id="kembalian" name="kembalian" class="form-control input-sm" style="text-align:right;margin-bottom:5px;" required></th>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><select name="id_pembayaran" class="selectpicker show-tick form-control" data-live-search="true" title="Jenis Pembayaran" data-width="260px" required>
+                        <?php foreach ($jenis_pemb->result_array() as $i) {
+                            $id_sup=$i['id'];
+                            $nm_sup=$i['jenis'];
+
+                           echo "<option value='$id_sup'>$nm_sup</option>";
+                        }?>
+                    </select>
+                    <input type="text" style="width: 260px; margin-top: 10px;" placeholder="Keterangan pembayaran" class="form-control" name="keterangan_pembayaran"><br></td>
+                </tr>
+
 
             </table>
             </form>
             <hr/>
         </div>
+        <table class="table" id="datatable">
+        </table>
         <!-- /.row -->
          <!-- ============ MODAL ADD =============== -->
         <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
@@ -216,6 +246,11 @@
     <script src="<?php echo base_url().'assets/js/jquery.price_format.min.js'?>"></script>
     <script src="<?php echo base_url().'assets/js/moment.js'?>"></script>
     <script src="<?php echo base_url().'assets/js/bootstrap-datetimepicker.min.js'?>"></script>
+
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/3.0.0/js/dataTables.responsive.js"></script>
+	<script src="https://cdn.datatables.net/responsive/3.0.0/js/responsive.bootstrap5.min.js"></script>
     <script type="text/javascript">
         $(function(){
             $('#jml_uang').on("input",function(){
@@ -292,6 +327,170 @@
             $('#largeModal').modal('hide');
         }
     </script>
+
+<script>
+     $(document).ready(function() {
+        function format(d) {
+    // `d` is the original data object for the row
+    return (
+        `
+        <div style="display: flex; justify-content: center;">
+        <table>
+        <tr style="background-color: lightgray;">
+        <td>ID Barang</td>
+        <td>Nama Barang</td>
+        <td>Satuan</td>
+        <td>Harga jual</td>
+        <td>Qty</td>
+        <td>Diskon</td>
+        <td>Total</td>
+        </tr>
+            ${d.item.map(e=>{
+                return `
+                <tr>
+                <td>${e.d_jual_barang_id}</td>
+                <td>${e.d_jual_barang_nama}</td>
+                <td>${e.d_jual_barang_satuan}</td>
+                <td>${formatRp(e.d_jual_barang_harjul,'Rp')}</td>
+                <td>${e.d_jual_qty}</td>
+                <td>${formatRp(e.d_jual_diskon,'Rp')}</td>
+                <td>${formatRp(e.d_jual_total,'Rp')}</td>
+                </tr>
+                `
+            })}
+        </table>
+        </div>
+        `
+    );
+}
+            table = $('#datatable').DataTable({  
+                "autoWidth": false,
+                "responsive": false,
+                'processing': true,
+                'serverSide': true,
+'ordering': true,
+'scrollX': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': '<?= base_url() ?>admin/penjualan/datatable',
+                    "data": function(d) {
+                        d.where = "jual_keterangan = 'grosir'"
+                        // d.filter_barang = $('#filter_barang').val();
+                        // tambahkan parameter lain jika diperlukan
+                    }
+                },
+                'columns': [
+                    // {
+                    //     data: 'datetime',
+                    //     title: 'Tanggal',
+                    //     render: (data,type,row) =>{
+                    //         return row.datetime
+                    //     }
+                    // },
+                    {
+            class: 'dt-control',
+            orderable: false,
+            data: null,
+            defaultContent: ''
+        },
+        {
+                        data: 'jual_tanggal',
+                        title: 'Tanggal'
+                    },
+                    {
+                        data: 'pelanggan',
+                        title: 'Pelanggan'
+                    },
+                    {
+                        data: 'jual_nofak',
+                        title: 'No Faktur'
+                    },
+                    {
+                        data: 'jual_total',
+                        title: 'Total penjualan',
+                        render: function(e){
+                            return formatRp(e,'Rp')
+                        }
+                    },
+                    {
+                        data: 'jual_jml_uang',
+                        title: 'Jumlah uang',
+                        render: function(e){
+                            return formatRp(e,'Rp')
+                        }
+                    },
+                    {
+                        data: 'jual_kembalian',
+                        title: 'Kembalian',
+                        render: function(e){
+                            return formatRp(e,'Rp')
+                        }
+                    },
+                    {
+                        data: 'jual_keterangan',
+                        title: 'Keterangan'
+                    },
+                    {
+                        data: 'jenis_pemb',
+                        title: 'Pembayaran',
+                        render: function(e,i,a){
+                            if(a.jenis_pemb){
+return `${a.jenis_pemb} <br/> <small>${a.keterangan_pembayaran}</small>`
+                            }
+                            return ''
+                            
+                        }
+                    },
+                    {
+                        data: 'user_nama',
+                        title: 'User ID'
+                    },
+                    
+                    // {
+                    //     data: 'no_telp',
+                    //     title: 'No Telepon'
+                    // },
+                    // {
+                    //     data: 'total',
+                    //     title: 'Total Pembelian',
+                    //     render: (data,type,row) => {
+                    //         return formatRp(row.total,'Rp')
+                    //     }
+                    // },
+                    // {
+                    //     data: 'hpp',
+                    //     title: 'HPP',
+                    //     render:(data,type,row) => {
+                    //         return formatRp(row.hpp,'Rp.')
+                    //     }
+                    // },
+
+
+                ],
+       
+            });
+
+            table.on('click', 'td.dt-control', function (e) {
+    let tr = e.target.closest('tr');
+    let row = table.row(tr);
+ 
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        row.child(format(row.data())).show();
+    }
+});
+
+            $(".dataTables_empty").text("Tidak Ada Data Export");
+            // spinHandle = loadingOverlay().activate();
+
+
+
+        });
+</script>
     
     
 </body>

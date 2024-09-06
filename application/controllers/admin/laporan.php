@@ -12,13 +12,17 @@ class laporan extends CI_Controller{
 		$this->load->model('m_pembelian');
 		$this->load->model('m_penjualan');
 		$this->load->model('m_laporan');
+		$this->load->model('m_jenis_pemb');
 	}
 	function index(){
 	if($this->session->userdata('akses')=='1'){
 		$data['data']=$this->m_barang->tampil_barang();
 		$data['kat']=$this->m_kategori->tampil_kategori();
 		$data['jual_bln']=$this->m_laporan->get_bulan_jual();
+		$data['beli_bln']=$this->m_laporan->get_bulan_beli();
 		$data['jual_thn']=$this->m_laporan->get_tahun_jual();
+		$data['supplier'] = $this->m_suplier->tampil_suplier();
+		$data['jual_jenis'] = $this->m_jenis_pemb->tampil_kategori();
 		$this->load->view('admin/v_laporan',$data);
 	}else{
         echo "Halaman tidak ditemukan";
@@ -49,6 +53,13 @@ class laporan extends CI_Controller{
 		$x['data']=$this->m_laporan->get_jual_perbulan($bulan);
 		$this->load->view('admin/laporan/v_lap_jual_perbulan',$x);
 	}
+	function lap_penjualan_perjenis(){
+		$bulan=$this->input->post('bln');
+		$bulan2=$this->input->post('bln2');
+		$x['jml']=$this->m_laporan->get_total_jual_perjenis($bulan,$bulan2);
+		$x['data']=$this->m_laporan->get_jual_perjenis($bulan,$bulan2);
+		$this->load->view('admin/laporan/v_lap_jual_perjenis',$x);
+	}
 	function lap_penjualan_pertahun(){
 		$tahun=$this->input->post('thn');
 		$x['jml']=$this->m_laporan->get_total_jual_pertahun($tahun);
@@ -60,5 +71,12 @@ class laporan extends CI_Controller{
 		$x['jml']=$this->m_laporan->get_total_lap_laba_rugi($bulan);
 		$x['data']=$this->m_laporan->get_lap_laba_rugi($bulan);
 		$this->load->view('admin/laporan/v_lap_laba_rugi',$x);
+	}
+	function lap_pemb_suplier(){
+		$suplier=$this->input->post('suplier');
+		$bulan2=$this->input->post('bln2');
+		$x['jml']=$this->m_laporan->get_total_lap_pemb_suplier($suplier,$bulan2);
+		$x['data']=$this->m_laporan->get_lap_pemb_suplier($suplier,$bulan2);
+		$this->load->view('admin/laporan/v_lap_pemb_suplier',$x);
 	}
 }

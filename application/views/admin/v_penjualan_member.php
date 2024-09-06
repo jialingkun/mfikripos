@@ -9,7 +9,7 @@
     <meta name="description" content="Produk By Mfikri.com">
     <meta name="author" content="M Fikri Setiadi">
 
-    <title>Transaksi Penjualan</title>
+    <title>Welcome To Point of Sale Apps</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url().'assets/css/bootstrap.min.css'?>" rel="stylesheet">
@@ -40,16 +40,16 @@
             <div class="col-lg-12">
             <center><?php echo $this->session->flashdata('msg');?></center>
                 <h1 class="page-header">Transaksi
-                    <small>Penjualan (Eceran)</small>
-                </h1> 
+                    <small>Penjualan (Member)</small>
+                </h1>
             </div>
         </div>
         <!-- /.row -->
         <!-- Projects Row -->
         <div class="row">
             <div class="col-lg-12">
-            <form action="<?php echo base_url().'admin/penjualan/add_to_cart'?>" method="post">
-                <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
+            <form action="<?php echo base_url().'admin/penjualan_member/add_to_cart'?>" method="post">
+                    <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
             <table>
                 <tr>
                     <th>Kode Barang</th>
@@ -87,20 +87,29 @@
                          <td style="text-align:center;"><?php echo number_format($items['qty']);?></td>
                          <td style="text-align:right;"><?php echo number_format($items['subtotal']);?></td>
                         
-                         <td style="text-align:center;"><a href="<?php echo base_url().'admin/penjualan/remove/'.$items['rowid'];?>" class="btn btn-warning btn-xs"><span class="fa fa-close"></span> Batal</a></td>
+                         <td style="text-align:center;"><a href="<?php echo base_url().'admin/penjualan_member/remove/'.$items['rowid'];?>" class="btn btn-warning btn-xs"><span class="fa fa-close"></span> Batal</a></td>
                     </tr>
                     
                     <?php $i++; ?>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-            <form action="<?php echo base_url().'admin/penjualan/simpan_penjualan'?>" method="post">
+            <form action="<?php echo base_url().'admin/penjualan_member/simpan_penjualan_member'?>" method="post">
             <table>
                 <tr>
                     <td style="width:760px;" rowspan="2">
-                        <input type="text" style="width: 200px;" class="form-control input-sm" name="pelanggan" placeholder="Masukkan nama pelanggan..."/> <br>
-                        <button type="submit" class="btn btn-info btn-lg"> Simpan</button>
-                    </td>
+                    <select name="pelanggan" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Pelanggan Member" data-width="260px" required>
+                        <?php foreach ($sup->result_array() as $i) {
+                            $id_sup=$i['id'];
+                            $nm_sup=$i['nama'];
+                            $al_sup=$i['alamat'];
+                            $notelp_sup=$i['no_telp'];
+
+                           echo "<option value='$nm_sup'>$nm_sup - $al_sup - $notelp_sup</option>";
+                        }?>
+                    </select> <br> <br>
+                    
+                        <button type="submit" class="btn btn-info btn-lg"> Simpan</button></td>
                     <th style="width:140px;">Total Belanja(Rp)</th>
                     <th style="text-align:right;width:140px;"><input type="text" name="total2" value="<?php echo number_format($this->cart->total());?>" class="form-control input-sm" style="text-align:right;margin-bottom:5px;" readonly></th>
                     <input type="hidden" id="total" name="total" value="<?php echo $this->cart->total();?>" class="form-control input-sm" style="text-align:right;margin-bottom:5px;" readonly>
@@ -129,14 +138,15 @@
                     <input type="text" style="width: 260px; margin-top: 10px;" placeholder="Keterangan pembayaran" class="form-control" name="keterangan_pembayaran"><br></td>
                 </tr>
 
+
             </table>
             </form>
             <hr/>
         </div>
         <table class="table" id="datatable">
-    </table>
+        </table>
         <!-- /.row -->
-        <!-- ============ MODAL ADD =============== -->
+         <!-- ============ MODAL ADD =============== -->
         <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -144,16 +154,16 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 class="modal-title" id="myModalLabel">Data Barang</h3>
             </div>
-                <div class="modal-body" style="overflow:scroll;height:500px; width: 97%;">
+                <div class="modal-body" style="overflow:scroll;height:500px;">
 
-                  <table class="table table-bordered table-condensed" style="font-size:11px; width: 97%;" id="mydata">
+                  <table class="table table-bordered table-condensed" style="font-size:11px;" id="mydata">
                     <thead>
                         <tr>
                             <th style="text-align:center;width:40px;">No</th>
                             <th style="width:120px;">Kode Barang</th>
                             <th style="width:240px;">Nama Barang</th>
                             <th>Satuan</th>
-                            <th style="width:100px;">Harga (Eceran)</th>
+                            <th style="width:100px;">Harga (Member)</th>
                             <th>Stok</th>
                             <th style="width:100px;text-align:center;">Aksi</th>
                         </tr>
@@ -168,7 +178,7 @@
                             $satuan=$a['barang_satuan'];
                             $harpok=$a['barang_harpok'];
                             $harjul=$a['barang_harjul'];
-                            $harjul_grosir=$a['barang_harjul_grosir'];
+                            $harjul_member=$a['barang_harjul_member'];
                             $stok=$a['barang_stok'];
                             $min_stok=$a['barang_min_stok'];
                             $kat_id=$a['barang_kategori_id'];
@@ -179,15 +189,15 @@
                             <td><?php echo $id;?></td>
                             <td><?php echo $nm;?></td>
                             <td style="text-align:center;"><?php echo $satuan;?></td>
-                            <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul);?></td>
+                            <td style="text-align:right;"><?php echo 'Rp '.number_format($harjul_member);?></td>
                             <td style="text-align:center;"><?php echo $stok;?></td>
                             <td style="text-align:center;">
-                            <!-- <form action="<?php echo base_url().'admin/penjualan/add_to_cart'?>" method="post"> -->
+                            <!-- <form action="<?php echo base_url().'admin/penjualan_member/add_to_cart'?>" method="post"> -->
                             <input type="hidden" name="kode_brg" value="<?php echo $id?>">
                             <input type="hidden" name="nabar" value="<?php echo $nm;?>">
                             <input type="hidden" name="satuan" value="<?php echo $satuan;?>">
                             <input type="hidden" name="stok" value="<?php echo $stok;?>">
-                            <input type="hidden" name="harjul" value="<?php echo number_format($harjul);?>">
+                            <input type="hidden" name="harjul" value="<?php echo number_format($harjul_member);?>">
                             <input type="hidden" name="diskon" value="0">
                             <input type="hidden" name="qty" value="1" required>
                                 <button type="button" class="btn btn-xs btn-info" title="Pilih" onclick="copykode('<?php echo $id?>')"><span class="fa fa-edit"></span> Pilih</button>
@@ -207,11 +217,6 @@
             </div>
             </div>
         </div>
-
-        
-
-        <!-- ============ MODAL HAPUS =============== -->
-        
 
         <!--END MODAL-->
 
@@ -299,7 +304,7 @@
                 var kobar = {kode_brg:$(this).val()};
                    $.ajax({
                type: "POST",
-               url : "<?php echo base_url().'admin/penjualan/get_barang';?>",
+               url : "<?php echo base_url().'admin/penjualan_member/get_barang';?>",
                data: kobar,
                success: function(msg){
                $('#detail_barang').html(msg);
@@ -322,9 +327,8 @@
             $('#largeModal').modal('hide');
         }
     </script>
-    
 
-    <script>
+<script>
      $(document).ready(function() {
         function format(d) {
     // `d` is the original data object for the row
@@ -370,7 +374,7 @@
                 'ajax': {
                     'url': '<?= base_url() ?>admin/penjualan/datatable',
                     "data": function(d) {
-                        d.where = "jual_keterangan = 'eceran'"
+                        d.where = "jual_keterangan = 'member'"
                         // d.filter_barang = $('#filter_barang').val();
                         // tambahkan parameter lain jika diperlukan
                     }
@@ -487,6 +491,7 @@ return `${a.jenis_pemb} <br/> <small>${a.keterangan_pembayaran}</small>`
 
         });
 </script>
+    
     
 </body>
 

@@ -89,6 +89,14 @@
                     </tr>
 
                     <tr>
+                        <td style="text-align:center;vertical-align:middle">4</td>
+                        <td style="vertical-align:middle;">Laporan Penjualan Per Jenis Pembayaran</td>
+                        <td style="text-align:center;">
+                            <a class="btn btn-sm btn-default" href="#lap_jual_perjenis" data-toggle="modal"><span class="fa fa-print"></span> Print</a>
+                        </td>
+                    </tr>
+
+                    <tr>
                         <td style="text-align:center;vertical-align:middle">5</td>
                         <td style="vertical-align:middle;">Laporan Penjualan PerBulan</td>
                         <td style="text-align:center;">
@@ -109,6 +117,14 @@
                         <td style="vertical-align:middle;">Laporan Laba/Rugi</td>
                         <td style="text-align:center;">
                             <a class="btn btn-sm btn-default" href="#lap_laba_rugi" data-toggle="modal"><span class="fa fa-print"></span> Print</a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="text-align:center;vertical-align:middle">8</td>
+                        <td style="vertical-align:middle;">Laporan Pembelian PerSupplier</td>
+                        <td style="text-align:center;">
+                            <a class="btn btn-sm btn-default" href="#lap_pemb_supplier" data-toggle="modal"><span class="fa fa-print"></span> Print</a>
                         </td>
                     </tr>
               
@@ -151,6 +167,55 @@
             </div>
             </div>
         </div>
+
+
+        <div class="modal fade" id="lap_jual_perjenis" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title" id="myModalLabel">Pilih jenis pembayaran</h3>
+            </div>
+            <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/laporan/lap_penjualan_perjenis'?>" target="_blank">
+                <div class="modal-body">
+
+                <div class="form-group">
+                        <label class="control-label col-xs-3" >jenis</label>
+                        <div class="col-xs-9">
+                                <select name="bln" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Jenis" data-width="80%" required/>
+                                <?php foreach ($jual_jenis->result_array() as $k) {
+                                    $bln=$k['jenis'];
+                                ?>
+                                    <option value="<?= $k['id']; ?>"><?php echo $bln;?></option>
+                                <?php }?>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" >Bulan</label>
+                        <div class="col-xs-9">
+                                <select name="bln2" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Bulan" data-width="80%" required/>
+                                <?php foreach ($jual_bln->result_array() as $k) {
+                                    $bln=$k['bulan'];
+                                ?>
+                                    <option><?php echo $bln;?></option>
+                                <?php }?>
+                                </select>
+                        </div>
+                    </div>
+                           
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
+                    <button class="btn btn-info"><span class="fa fa-print"></span> Cetak</button>
+                </div>
+            </form>
+            </div>
+            </div>
+        </div>
+
 
         <!-- ============ MODAL ADD =============== -->
         <div class="modal fade" id="lap_jual_perbulan" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
@@ -241,6 +306,53 @@
                         <div class="col-xs-9">
                                 <select name="bln" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Bulan" data-width="80%" required/>
                                 <?php foreach ($jual_bln->result_array() as $k) {
+                                    $bln=$k['bulan'];
+                                ?>
+                                    <option><?php echo $bln;?></option>
+                                <?php }?>
+                                </select>
+                        </div>
+                    </div>
+                           
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Tutup</button>
+                    <button class="btn btn-info"><span class="fa fa-print"></span> Cetak</button>
+                </div>
+            </form>
+            </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="lap_pemb_supplier" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title" id="myModalLabel">Pilih Suplier</h3>
+            </div>
+            <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/laporan/lap_pemb_suplier'?>" target="_blank">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" >Suplier</label>
+                        <div class="col-xs-9">
+                                <select name="suplier" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Supplier" data-width="80%" required/>
+                                <?php foreach ($supplier->result_array() as $k) {
+                                    $nama=$k['suplier_nama'];
+                                ?>
+                                    <option value="<?php echo $k['suplier_id'] ?>"><?php echo $nama;?></option>
+                                <?php }?>
+                                </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" >Bulan</label>
+                        <div class="col-xs-9">
+                                <select name="bln2" class="selectpicker show-tick form-control" data-live-search="true" title="Pilih Bulan" data-width="80%" required/>
+                                <?php foreach ($beli_bln->result_array() as $k) {
                                     $bln=$k['bulan'];
                                 ?>
                                     <option><?php echo $bln;?></option>

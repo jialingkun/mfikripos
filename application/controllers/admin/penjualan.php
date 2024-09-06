@@ -10,10 +10,12 @@ class penjualan extends CI_Controller{
 		$this->load->model('m_barang');
 		$this->load->model('m_suplier');
 		$this->load->model('m_penjualan');
+		$this->load->model('m_jenis_pemb');
 	}
 	function index(){
 	if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2'){
 		$data['data']=$this->m_barang->tampil_barang();
+		$data['jenis_pemb'] = $this->m_jenis_pemb->tampil_kategori();
 		$this->load->view('admin/v_penjualan',$data);
 	}else{
         echo "Halaman tidak ditemukan";
@@ -84,6 +86,9 @@ class penjualan extends CI_Controller{
 	function simpan_penjualan(){
 	if($this->session->userdata('akses')=='1' || $this->session->userdata('akses')=='2'){
 		$total=$this->input->post('total');
+		$pelanggan = $this->input->post('pelanggan');
+		$id_pemb = $this->input->post('id_pembayaran');
+		$ket_pemb = $this->input->post('keterangan_pembayaran');
 		$jml_uang=str_replace(",", "", $this->input->post('jml_uang'));
 		$kembalian=$jml_uang-$total;
 		if(!empty($total) && !empty($jml_uang)){
@@ -93,7 +98,7 @@ class penjualan extends CI_Controller{
 			}else{
 				$nofak=$this->m_penjualan->get_nofak();
 				$this->session->set_userdata('nofak',$nofak);
-				$order_proses=$this->m_penjualan->simpan_penjualan($nofak,$total,$jml_uang,$kembalian);
+				$order_proses=$this->m_penjualan->simpan_penjualan($nofak,$total,$jml_uang,$kembalian,$pelanggan,$id_pemb,$ket_pemb);
 				if($order_proses){
 					$this->cart->destroy();
 					
@@ -121,5 +126,10 @@ class penjualan extends CI_Controller{
 		//$this->session->unset_userdata('nofak');
 	}
 
+	public function datatable(){
+        return $this->output
+     ->set_content_type('application/json')
+     ->set_output(json_encode($this->m_penjualan->datatable($this->input->post())));
+    }
 
 }
