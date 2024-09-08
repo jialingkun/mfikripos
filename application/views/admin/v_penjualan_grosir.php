@@ -143,8 +143,11 @@
             </form>
             <hr/>
         </div>
-        <table class="table" id="datatable">
-        </table>
+        <button class="btn btn-primary d-none" id="buka-histori" onclick="bukaHistori()" style="margin-bottom: 20px; margin-left: -15px; width: 100%; background-color: gray; border-color: gray;">Buka histori penjualan</button>
+        <button class="btn btn-primary" id="tutup-histori" onclick="tutupHistori()" style="width: 100%; margin-bottom: 20px; margin-left: -15px; display: none;">Tutup histori penjualan</button>
+        <div style="display: none;" id="datatable-wrapper">
+        <table class="table" id="datatable"></table>
+        </div>
         <!-- /.row -->
          <!-- ============ MODAL ADD =============== -->
         <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
@@ -491,7 +494,18 @@ return `${a.jenis_pemb} <br/> <small>${a.keterangan_pembayaran}</small>`
 
         });
 </script>
-    
+<script>
+    function bukaHistori(){
+        document.querySelector('#datatable-wrapper').style.display = 'block'
+        document.querySelector('#tutup-histori').style.display = 'block'
+        document.querySelector('#buka-histori').style.display = 'none'
+    }
+    function tutupHistori(){
+        document.querySelector('#datatable-wrapper').style.display = 'none'
+        document.querySelector('#tutup-histori').style.display = 'none'
+        document.querySelector('#buka-histori').style.display = 'block'
+    }
+</script>
     
 </body>
 

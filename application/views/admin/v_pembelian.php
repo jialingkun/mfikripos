@@ -21,6 +21,8 @@
     <link href="<?php echo base_url().'assets/css/jquery.dataTables.min.css'?>" rel="stylesheet">
     <link href="<?php echo base_url().'assets/dist/css/bootstrap-select.css'?>" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url().'assets/css/bootstrap-datetimepicker.min.css'?>">
+    <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/responsive/3.0.0/css/responsive.bootstrap5.min.css"/>
 </head>
 
 <body>
@@ -81,6 +83,7 @@
                     </td>
                 </tr>
             </table><hr/>
+            
             <div><a href="#" class="btn btn-success" data-toggle="modal" data-target="#largeModal"><span class="fa fa-search"></span> Cari Produk</a></div><br>
             <table>
                 <tr>
@@ -130,11 +133,32 @@
                     </tr>
                 </tfoot>
             </table>
-            <a href="<?php echo base_url().'admin/pembelian/simpan_pembelian'?>" class="btn btn-info btn-lg"><span class="fa fa-save"></span> Simpan</a>
+            <form method="post" action="<?php echo base_url().'admin/pembelian/simpan_pembelian'?>">
+            <select name="id_pembayaran" class="selectpicker show-tick form-control" data-live-search="true" title="Jenis Pembayaran" data-width="260px" required>
+                        <?php foreach ($jenis_pemb->result_array() as $i) {
+                            $id_sup=$i['id'];
+                            $nm_sup=$i['jenis'];
+
+                           echo "<option value='$id_sup'>$nm_sup</option>";
+                        }?>
+                    </select> <br> <br>
+                    <input type="text" style="width: 260px;" placeholder="Keterangan pembayaran" class="form-control" name="keterangan_pembayaran">
+                    <br>
+            <button type="submit" class="btn btn-info btn-lg"><span class="fa fa-save"></span> Simpan</button>
+
+            </form>
+            
             </div>
         </div>
         <!-- /.row -->
+         <br><br><br>
+        <button class="btn btn-primary d-none" id="buka-histori" onclick="bukaHistori()" style="margin-bottom: 20px; margin-left: -15px; width: 100%; background-color: gray; border-color: gray;">Buka histori pembelian</button>
+        <button class="btn btn-primary" id="tutup-histori" onclick="tutupHistori()" style="width: 100%; margin-bottom: 20px; margin-left: -15px; display: none;">Tutup histori pembelian</button>
+        <div style="display: none;" id="datatable-wrapper">
+        <table class="table" id="datatable"></table>
+        </div>
         
+        <!-- <table class="table" id="datatable"></table> -->
         <!-- ============ MODAL ADD =============== -->
         <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -240,6 +264,11 @@
     <script src="<?php echo base_url().'assets/js/jquery.price_format.min.js'?>"></script>
     <script src="<?php echo base_url().'assets/js/moment.js'?>"></script>
     <script src="<?php echo base_url().'assets/js/bootstrap-datetimepicker.min.js'?>"></script>
+
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/3.0.0/js/dataTables.responsive.js"></script>
+	<script src="https://cdn.datatables.net/responsive/3.0.0/js/responsive.bootstrap5.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#mydata').DataTable();
@@ -308,6 +337,137 @@
             $('#largeModal').modal('hide');
         }
     </script>
+
+<script>
+     $(document).ready(function() {
+        function format(d) {
+    // `d` is the original data object for the row
+    return (
+        `
+        <div style="display: flex; justify-content: center;">
+        <table>
+        <tr style="background-color: lightgray;">
+        <td>ID Barang</td>
+        <td>Nama Barang</td>
+        <td>Harga</td>
+        <td>Qty</td>
+        <td>Total</td>
+        </tr>
+            ${d.item.map(e=>{
+                return `
+                <tr>
+                <td>${e.d_beli_barang_id}</td>
+                <td>${e.barang_nama}</td>
+                <td>${formatRp(e.d_beli_harga,'Rp')}</td>
+                <td>${e.d_beli_jumlah}</td>
+                <td>${formatRp(e.d_beli_total,'Rp')}</td>
+                </tr>
+                `
+            })}
+        </table>
+        </div>
+        `
+    );
+}
+            table = $('#datatable').DataTable({  
+                "autoWidth": false,
+                "responsive": false,
+                'processing': true,
+                'serverSide': true,
+'ordering': true,
+'scrollX': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': '<?= base_url() ?>admin/pembelian/datatable',
+                    "data": function(d) {
+                        // d.where = "jual_keterangan = 'grosir'"
+                        // d.filter_barang = $('#filter_barang').val();
+                        // tambahkan parameter lain jika diperlukan
+                    }
+                },
+                'columns': [
+                    // {
+                    //     data: 'datetime',
+                    //     title: 'Tanggal',
+                    //     render: (data,type,row) =>{
+                    //         return row.datetime
+                    //     }
+                    // },
+                    {
+            class: 'dt-control',
+            orderable: false,
+            data: null,
+            defaultContent: ''
+        },
+        {
+                        data: 'beli_tanggal',
+                        title: 'Tanggal'
+                    },
+                    {
+                        data: 'beli_nofak',
+                        title: 'No Faktur'
+                    },
+                    {
+                        data: 'beli_kode',
+                        title: 'Beli Kode'
+                    },
+                    {
+                        data: 'jenis_pemb',
+                        title: 'Pembayaran',
+                        render: function(e,i,a){
+                            if(a.jenis_pemb){
+return `${a.jenis_pemb} <br/> <small>${a.keterangan_pembayaran}</small>`
+                            }
+                            return ''
+                            
+                        }
+                    },
+                    {
+                        data: 'user_nama',
+                        title: 'User'
+                    },
+                    {
+                        data: 'suplier_nama',
+                        title: 'Suplier'
+                    }
+
+                ],
+       
+            });
+
+            table.on('click', 'td.dt-control', function (e) {
+    let tr = e.target.closest('tr');
+    let row = table.row(tr);
+ 
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+    }
+    else {
+        // Open this row
+        row.child(format(row.data())).show();
+    }
+});
+
+            $(".dataTables_empty").text("Tidak Ada Data Export");
+            // spinHandle = loadingOverlay().activate();
+
+
+
+        });
+</script>
+<script>
+    function bukaHistori(){
+        document.querySelector('#datatable-wrapper').style.display = 'block'
+        document.querySelector('#tutup-histori').style.display = 'block'
+        document.querySelector('#buka-histori').style.display = 'none'
+    }
+    function tutupHistori(){
+        document.querySelector('#datatable-wrapper').style.display = 'none'
+        document.querySelector('#tutup-histori').style.display = 'none'
+        document.querySelector('#buka-histori').style.display = 'block'
+    }
+</script>
     
 </body>
 

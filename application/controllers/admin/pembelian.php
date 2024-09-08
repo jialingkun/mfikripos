@@ -10,11 +10,13 @@ class pembelian extends CI_Controller{
 		$this->load->model('m_barang');
 		$this->load->model('m_suplier');
 		$this->load->model('m_pembelian');
+		$this->load->model('m_jenis_pemb');
 	}
 	function index(){
 	if($this->session->userdata('akses')=='1'){
 		$x['sup']=$this->m_suplier->tampil_suplier();
 		$x['data']=$this->m_barang->tampil_barang();
+		$x['jenis_pemb'] = $this->m_jenis_pemb->tampil_kategori();
 		$this->load->view('admin/v_pembelian',$x);
 	}else{
         echo "Halaman tidak ditemukan";
@@ -72,9 +74,11 @@ class pembelian extends CI_Controller{
 		$nofak=$this->session->userdata('nofak');
 		$tglfak=$this->session->userdata('tglfak');
 		$suplier=$this->session->userdata('suplier');
+		$id_pembayaran = $this->input->post('id_pembayaran');
+		$ket = $this->input->post('keterangan_pembayaran');
 		if(!empty($nofak) && !empty($tglfak) && !empty($suplier)){
 			$beli_kode=$this->m_pembelian->get_kobel();
-			$order_proses=$this->m_pembelian->simpan_pembelian($nofak,$tglfak,$suplier,$beli_kode);
+			$order_proses=$this->m_pembelian->simpan_pembelian($nofak,$tglfak,$suplier,$beli_kode,$id_pembayaran,$ket);
 			if($order_proses){
 				$this->cart->destroy();
 				$this->session->unset_userdata('nofak');
@@ -93,4 +97,11 @@ class pembelian extends CI_Controller{
         echo "Halaman tidak ditemukan";
     }	
 	}
+
+	public function datatable(){
+        return $this->output
+     ->set_content_type('application/json')
+     ->set_output(json_encode($this->m_pembelian->datatable($this->input->post())));
+    }
+
 }
