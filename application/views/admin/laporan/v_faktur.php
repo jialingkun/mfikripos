@@ -10,7 +10,7 @@
 <tr>
     <!-- <td><img src="<?php// echo base_url().'assets/img/kop_surat.png'?>"/></td> -->
 </tr>
-<tr>
+<!--<tr>
     <td style="font-size: 13px;"><b>Toko Aman Jaya</b></td>
 </tr>
 <tr>
@@ -18,7 +18,7 @@
 </tr>
 <tr>
     <td>085 93 666 6388</td>
-</tr>
+</tr>-->
 </table>
 
 <table border="0" align="center" style="width:180px; border:none;margin-top:5px;margin-bottom:0px;">
