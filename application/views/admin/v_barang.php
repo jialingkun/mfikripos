@@ -113,12 +113,12 @@
             <form class="form-horizontal" method="post" action="<?php echo base_url().'admin/barang/tambah_barang'?>">
                 <div class="modal-body">
 
-                    <!--<div class="form-group">
+                    <div class="form-group">
                         <label class="control-label col-xs-3" >Kode Barang</label>
                         <div class="col-xs-9">
                             <input name="kobar" class="form-control" type="text" placeholder="Kode Barang..." style="width:335px;" required>
                         </div>
-                    </div>-->
+                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-xs-3" >Nama Barang</label>

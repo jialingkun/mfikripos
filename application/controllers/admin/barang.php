@@ -22,7 +22,8 @@ class barang extends CI_Controller{
 	}
 	function tambah_barang(){
 	if($this->session->userdata('akses')=='1'){
-		$kobar=$this->m_barang->get_kobar();
+		// $kobar=$this->m_barang->get_kobar();
+		$kobar=$this->input->post('kobar');
 		$nabar=$this->input->post('nabar');
 		$kat=$this->input->post('kategori');
 		$satuan=$this->input->post('satuan');
