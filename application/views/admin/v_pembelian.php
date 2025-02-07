@@ -468,6 +468,14 @@ return `${a.jenis_pemb} <br/> <small>${a.keterangan_pembayaran}</small>`
         document.querySelector('#buka-histori').style.display = 'block'
     }
 </script>
+
+
+<!-- TAMBAHAN BENNY, disable this to enable pressing enter key to submit -->
+<script>
+    $('form').keypress(function(e){
+        if ( e.which == 13 ) return false;
+    }); 
+</script>
     
 </body>
 
